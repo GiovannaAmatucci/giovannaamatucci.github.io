@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Autenticando...</title>
+    <meta charset="UTF-8">
+    <script>
+        function redirect() {
+            const CUSTOM_SCHEME = 'melisearch';
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get('code');
+            const state = params.get('state');
+
+            if (!code) {
+                document.getElementById('status').textContent = 'Erro: Código de autorização não encontrado.';
+                return;
+            }
+            let deepLinkUrl = `${CUSTOM_SCHEME}://oauth?code=${code}`;
+            if (state) {
+                deepLinkUrl += `&state=${state}`;
+            }
+            window.location.href = deepLinkUrl;
+            document.getElementById('status').textContent = 'Tentando ao app... Se nada acontecer, por favor, volte para o app manualmente.';
+        }
+        window.onload = redirect;
+    </script>
+</head>
+<body>
+    <h1 id="status">Redirecionando para o aplicativo...</h1>
+</body>
+</html>
